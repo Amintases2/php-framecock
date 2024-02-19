@@ -14,14 +14,15 @@ services:
     volumes:
       - ./src:/var/www/html
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php
 
   mysql:
     image: mysql:8
-    container_name: mysql
     volumes:
       - ./docker/volume/mysql:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
+    env_file:
+      - docker/mysql/mysql.env
 
   phpmyadmin:
     depends_on:
@@ -33,3 +34,10 @@ services:
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: root
+
+  composer:
+      build:
+        context: docker/composer
+        dockerfile: Dockerfile
+      volumes:
+        - ./src:/var/www/html

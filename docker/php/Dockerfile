@@ -1,18 +1,7 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm-alpine
 
-RUN apt-get update \
-     && apt-get install -y libzip-dev \
-     unzip \
-     && docker-php-ext-install zip \
-     && docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo pdo_mysql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-#RUN composer install 
-
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-
 COPY conf.d/ $PHP_INI_DIR/conf.d/
-

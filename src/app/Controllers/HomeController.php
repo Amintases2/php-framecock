@@ -6,7 +6,7 @@ use Framework\Http\Response;
 
 class HomeController
 {
-    public function index($vars): Response
+    public function index(): Response
     {
         $content = '<h1>Hello world!</h1>';
 

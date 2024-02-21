@@ -36,8 +36,18 @@ services:
       MYSQL_ROOT_PASSWORD: root
 
   composer:
-      build:
-        context: docker/composer
-        dockerfile: Dockerfile
-      volumes:
-        - ./src:/var/www/html
+    build:
+      context: docker/composer
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
